@@ -27,6 +27,7 @@ final readonly class ShowNoteAction
         }
 
         $dto = new TwigNote(
+            title: $note->id->value,
             markdown: $note->content,
             html: (string) $this->converter->convert($note->content),
         );

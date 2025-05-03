@@ -13,11 +13,9 @@ final readonly class FileNoteMapper
     public function map(SplFileInfo $source): Note
     {
         return new Note(
-            id: NoteId::create(),
-            title: $source->getFilenameWithoutExtension(),
+            id: new NoteId($source->getFilenameWithoutExtension()),
             content: $source->getContents(),
             path: $source->getPath(),
-            filename: $source->getFilename(),
             extension: $source->getExtension(),
         );
     }

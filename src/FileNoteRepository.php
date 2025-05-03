@@ -31,4 +31,9 @@ final readonly class FileNoteRepository implements NoteRepository
 
         return null;
     }
+
+    public function save(Note $note): bool
+    {
+        return false;
+    }
 }
