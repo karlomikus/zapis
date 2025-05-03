@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Webpage</title>
+    </head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+    <body>
+        <div class="main-container">
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>
