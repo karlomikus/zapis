@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
+use Monolog\Level;
+use Monolog\Logger;
 use Twig\Environment;
 use Loupe\Loupe\Loupe;
+use Psr\Log\LoggerInterface;
 use Kami\Notes\Domain\Config;
 use Loupe\Loupe\LoupeFactory;
 use Loupe\Loupe\Configuration;
 use Twig\Loader\FilesystemLoader;
+use Monolog\Handler\StreamHandler;
 use Symfony\Component\Finder\Finder;
 use Loupe\Loupe\Config\TypoTolerance;
 use Psr\Container\ContainerInterface;
@@ -19,6 +23,13 @@ return [
         return new Config(
             contentFolderPath: rtrim(__DIR__ . '/../content', '/'),
         );
+    },
+
+    LoggerInterface::class => function () {
+        $log = new Logger('main');
+        $log->pushHandler(new StreamHandler('php://stdout', Level::Info));
+
+        return $log;
     },
 
     Finder::class => function (ContainerInterface $c) {

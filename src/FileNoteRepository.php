@@ -9,10 +9,11 @@ use Kami\Notes\Domain\Config;
 use Kami\Notes\Domain\NoteId;
 use Symfony\Component\Finder\Finder;
 use Kami\Notes\Domain\NoteRepository;
+use Psr\Log\LoggerInterface;
 
 final readonly class FileNoteRepository implements NoteRepository
 {
-    public function __construct(private Finder $finder, private FileNoteMapper $mapper, private Config $config)
+    public function __construct(private Finder $finder, private FileNoteMapper $mapper, private Config $config, private LoggerInterface $logger)
     {
     }
 
@@ -35,10 +36,14 @@ final readonly class FileNoteRepository implements NoteRepository
 
     public function save(Note $note): bool
     {
-        $file = file_put_contents($this->config->contentFolderPath . DIRECTORY_SEPARATOR . $note->path, $note->content);
+        $file = file_put_contents($this->config->contentFolderPath . DIRECTORY_SEPARATOR . $note->path, $note->content, LOCK_EX);
         if ($file === false) {
             return false;
         }
+
+        $this->logger->info('File saved', [
+            'path' => $note->path,
+        ]);
 
         return true;
     }
