@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Kami\Notes;
 
 use Kami\Notes\Domain\Note;
+use Kami\Notes\Domain\Config;
 use Kami\Notes\Domain\NoteId;
 use Symfony\Component\Finder\Finder;
 use Kami\Notes\Domain\NoteRepository;
 
 final readonly class FileNoteRepository implements NoteRepository
 {
-    public function __construct(private Finder $finder, private FileNoteMapper $mapper)
+    public function __construct(private Finder $finder, private FileNoteMapper $mapper, private Config $config)
     {
     }
 
@@ -34,6 +35,11 @@ final readonly class FileNoteRepository implements NoteRepository
 
     public function save(Note $note): bool
     {
-        return false;
+        $file = file_put_contents($this->config->contentFolderPath . DIRECTORY_SEPARATOR . $note->path, $note->content);
+        if ($file === false) {
+            return false;
+        }
+
+        return true;
     }
 }
