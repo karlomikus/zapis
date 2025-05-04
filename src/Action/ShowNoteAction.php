@@ -18,9 +18,12 @@ final readonly class ShowNoteAction
     {
     }
 
+    /**
+     * @param array<string, string> $args
+     */
     public function __invoke(RequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $noteId = $args['file'] ?? null;
+        $noteId = $args['file'] ?? '';
         $note = $this->repository->find(new NoteId($noteId));
         if ($note === null) {
             return $response->withStatus(404);
@@ -30,6 +33,7 @@ final readonly class ShowNoteAction
             title: $note->id->value,
             markdown: $note->content,
             html: (string) $this->converter->convert($note->content),
+            path: $note->path,
         );
 
         $body = $this->twig->render('note.html.twig', [

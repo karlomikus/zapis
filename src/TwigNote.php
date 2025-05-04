@@ -10,6 +10,7 @@ final readonly class TwigNote
         public string $title,
         public string $markdown,
         public string $html,
+        public string $path = '',
     ) {
     }
 }

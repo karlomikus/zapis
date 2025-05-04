@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>My Webpage</title>
+        <title>[⚡] Zapis</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/assets/main.css">
@@ -9,10 +9,16 @@
     </head>
     <body>
         <div class="main-page-header">
-            <h1>Notes app</h1>
+            <div class="container">
+                <h1>[⚡] Zapis</h1>
+                <button type="button" class="button">New note</button>
+                <button type="button" class="button">Run</button>
+            </div>
         </div>
-        <div class="main-container">
-            {% block content %}{% endblock %}
+        <div class="container">
+            <div class="main-content">
+                {% block content %}{% endblock %}
+            </div>
         </div>
         <script type="module" src="/assets/main.js"></script>
         {% block script %}{% endblock %}
