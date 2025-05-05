@@ -1,27 +1,105 @@
+import "./reset.css";
 import "./styles.css";
-import "./editor.css";
-import '@toast-ui/editor/dist/toastui-editor-only.css';
-import Editor from '@toast-ui/editor';
+// import "@milkdown/theme-nord/style.css";
+// import "prism-themes/themes/prism-one-light.css";
 
-const editor = new Editor({
-    el: document.querySelector('#editor'),
-    initialEditType: 'markdown',
-    hideModeSwitch: true,
-    height: 'auto',
-    theme: 'zapis',
-    initialValue: document.querySelector('textarea')?.value,
-});
+declare global {
+  interface Window {
+    addNewNote: () => void;
+    showCommandPanel: () => void;
+    saveNote: (noteId: string) => Promise<void>;
+  }
+}
 
-const dialog = document.querySelector("dialog");
-const showButton = document.querySelector("dialog + button");
-const closeButton = document.querySelector("dialog button");
+// import { Editor, rootCtx, defaultValueCtx } from "@milkdown/kit/core";
+// import { commonmark } from "@milkdown/kit/preset/commonmark";
+// import { gfm } from "@milkdown/kit/preset/gfm";
+// import { nord } from "@milkdown/theme-nord";
+// import { prism } from "@milkdown/plugin-prism";
+// import { history } from "@milkdown/kit/plugin/history";
+import { wrap } from 'ink-mde'
 
-// "Show the dialog" button opens the dialog modally
-showButton.addEventListener("click", () => {
+const mainNoteContent = document.querySelector('#note-content') as HTMLTextAreaElement;
+
+wrap(mainNoteContent, {
+  interface: {
+    attribution: true,
+    autocomplete: true,
+    readonly: false,
+    spellcheck: false,
+    toolbar: false,
+  },
+})
+// ink(document.getElementById('editor')!)
+// Editor.make()
+//   .config((ctx) => {
+//     ctx.set(rootCtx, "#editor");
+//     ctx.set(defaultValueCtx, mainNoteContent?.value);
+//   })
+//   .config(nord)
+//   .use(commonmark)
+//   .use(gfm)
+//   .use(prism)
+//   .use(history)
+//   .create();
+
+window.addNewNote = () => {
+  const dialog = document.querySelector('#newNoteDialog') as HTMLDialogElement;
+  if (!dialog) {
+    console.error('Dialog not found');
+    return;
+  }
+
+  const closeButton = dialog.querySelector('.close') as HTMLButtonElement;
+  closeButton.addEventListener('click', () => {
+    dialog.close();
+  });
+
   dialog.showModal();
-});
+}
 
-// "Close" button closes the dialog
-closeButton.addEventListener("click", () => {
-  dialog.close();
+window.showCommandPanel = () => {
+  const dialog = document.querySelector('#commandPanelDialog') as HTMLDialogElement;
+  if (!dialog) {
+    console.error('Dialog not found');
+    return;
+  }
+
+  const closeButton = dialog.querySelector('.close') as HTMLButtonElement;
+  closeButton.addEventListener('click', () => {
+    dialog.close();
+  });
+
+  dialog.showModal();
+}
+
+window.saveNote = async (noteId: string) => {
+  // POST request to /noteId
+  // const content = (document.querySelector('#note-content') as HTMLTextAreaElement).value;
+  const content = editor.getMarkdown();
+  const title = (document.querySelector('#note-content') as HTMLHeadingElement).innerText;
+  const statusBar = document.querySelector('#status-bar') as HTMLDivElement;
+  const url = `/notes/${noteId}`;
+  const method = 'POST';
+  const options: RequestInit = {
+    method,
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+    body: content,
+  };
+  const response = await fetch(url, options)
+  // if (response.ok) {
+  //   statusBar.style.display = 'block';
+  // }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && e.key === 's') {
+    // Prevent the Save dialog to open
+    e.preventDefault();
+    // Place your code here
+    console.log('CTRL + S');
+    // window.saveNote('tefx')
+  }
 });

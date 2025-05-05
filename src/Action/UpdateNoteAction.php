@@ -24,23 +24,20 @@ final readonly class UpdateNoteAction
         $noteId = $args['file'] ?? '';
         $noteId = new NoteId($noteId);
 
-        $extension = 'md'; // Pull from header
-        $path = $noteId . '.' . $extension;
-
-        $existingNote = $this->repository->find($noteId);
-        if ($existingNote !== null) {
-            $path = $existingNote->path;
-            $extension = $existingNote->extension;
+        $note = $this->repository->find($noteId);
+        if ($note === null) {
+            $extension = 'md';
+            $note = new Note(
+                id: $noteId,
+                content: '',
+                path: $noteId . '.' . $extension,
+                extension: $extension, // TODO: Pull from header
+            );
         }
 
-        $updatedNote = new Note(
-            id: $noteId,
-            content: (string) $request->getBody()->getContents(),
-            path: $path,
-            extension: $extension,
-        );
+        $note->content = (string) $request->getBody()->getContents();
 
-        $this->repository->save($updatedNote);
+        $this->repository->save($note);
 
         return $response;
     }

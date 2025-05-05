@@ -1,10 +1,12 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-    <div class="note-header">
-        <h3>{{ note.path }}</h3>
-        <h2>{{ note.title }}</h2>
+    <div class="note">
+        <div class="note-header">
+            <h3>{{ note.path }}</h3>
+            <h2 id="note-title">{{ note.title }}</h2>
+        </div>
+        <textarea class="plain-editor" spellcheck="false" id="note-content" style="display: none;">{{ note.markdown | raw }}</textarea>
+        <div id="editor" spellcheck="false"></div>
     </div>
-    <textarea class="plain-editor" spellcheck="false">{{ note.markdown | raw }}</textarea>
-    {# <div id="editor" spellcheck="false"></div> #}
 {% endblock %}

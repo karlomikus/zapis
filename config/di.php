@@ -12,7 +12,6 @@ use Loupe\Loupe\LoupeFactory;
 use Loupe\Loupe\Configuration;
 use Twig\Loader\FilesystemLoader;
 use Monolog\Handler\StreamHandler;
-use Symfony\Component\Finder\Finder;
 use Loupe\Loupe\Config\TypoTolerance;
 use Psr\Container\ContainerInterface;
 use League\CommonMark\ConverterInterface;
@@ -30,15 +29,6 @@ return [
         $log->pushHandler(new StreamHandler('php://stdout', Level::Info));
 
         return $log;
-    },
-
-    Finder::class => function (ContainerInterface $c) {
-        /** @var Config $config */
-        $config = $c->get(Config::class);
-        $finder = new Finder();
-        $finder->files()->in($config->contentFolderPath);
-
-        return $finder;
     },
 
     ConverterInterface::class => function () {

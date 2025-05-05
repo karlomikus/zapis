@@ -7,7 +7,7 @@ namespace Kami\Notes\Action;
 use Twig\Environment;
 use Kami\Notes\Domain\NoteId;
 use Kami\Notes\FileNoteRepository;
-use Kami\Notes\TwigNote;
+use Kami\Notes\NoteViewModel;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use League\CommonMark\ConverterInterface;
@@ -23,13 +23,13 @@ final readonly class ShowNoteAction
      */
     public function __invoke(RequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $noteId = $args['file'] ?? '';
+        $noteId = $args['file'] ?? 'index';
         $note = $this->repository->find(new NoteId($noteId));
         if ($note === null) {
             return $response->withStatus(404);
         }
 
-        $dto = new TwigNote(
+        $dto = new NoteViewModel(
             title: $note->id->value,
             markdown: $note->content,
             html: (string) $this->converter->convert($note->content),

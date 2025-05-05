@@ -13,8 +13,30 @@ use Psr\Log\LoggerInterface;
 
 final readonly class FileNoteRepository implements NoteRepository
 {
-    public function __construct(private Finder $finder, private FileNoteMapper $mapper, private Config $config, private LoggerInterface $logger)
+    private Finder $finder;
+
+    public function __construct(private FileNoteMapper $mapper, private Config $config, private LoggerInterface $logger)
     {
+        $finder = new Finder();
+        $finder->files()->in($config->contentFolderPath);
+
+        $this->finder = $finder;
+    }
+
+    public function findAll(): array
+    {
+        $files = $this->finder->sortByModifiedTime();
+
+        if (!$files->hasResults()) {
+            return [];
+        }
+
+        $results = [];
+        foreach ($files as $file) {
+            $results[] = $this->mapper->map($file);
+        }
+
+        return $results;
     }
 
     public function find(NoteId $identifier): ?Note

@@ -5,14 +5,26 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/assets/main.css">
-        </style>
     </head>
     <body>
+        <div id="status-bar" class="status-bar">
+            <div class="toasts-toast">
+                Note saved!
+            </div>
+        </div>
         <div class="main-page-header">
             <div class="container">
-                <h1>[⚡] Zapis</h1>
-                <button type="button" class="button">New note</button>
-                <button type="button" class="button">Run</button>
+                <div class="nav-header">
+                    <h1>[⚡] zapis</h1>
+                    <div class="nav-header-actions">
+                        <button type="button" class="button" onclick="addNewNote()">
+                            <svg height="32" width="32" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)"><path d="m12.5 10.5v-8c0-1.1045695-.8954305-2-2-2h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2z"/><path d="m6.5 3.5v6.056"/><path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/></g></svg>
+                        </button>
+                        <button type="button" class="button" onclick="showCommandPanel()">
+                            <svg width="32" height="32" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 4.5h10a2 2 0 012 2v8a2 2 0 01-2 2h-10a2 2 0 01-2-2v-8a2 2 0 012-2zM10.5 13.5h3"/><path d="M6.5 12.5l2-2-2-2"/></g></g></svg>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="container">
@@ -20,6 +32,19 @@
                 {% block content %}{% endblock %}
             </div>
         </div>
+        <dialog id="newNoteDialog">
+            <form action="/" method="POST">
+                <input type="text" id="noteTitle" placeholder="Note Title" required>
+                <button type="submit" class="button">Create Note</button>
+            </form>
+            <button type="button" class="close" autofocus>Cancel</button>
+        </dialog>
+        <dialog id="commandPanelDialog">
+            <form action="/" method="POST">
+                <input type="text" id="noteTitle" placeholder="Note Title" required>
+            </form>
+            <button type="button" class="close" autofocus>Cancel</button>
+        </dialog>
         <script type="module" src="/assets/main.js"></script>
         {% block script %}{% endblock %}
     </body>

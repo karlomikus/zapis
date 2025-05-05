@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "bun build.ts"
+    "build": "bun build --entrypoints ./client/main.ts --outdir ./public/assets --minify --format esm --watch"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -13,6 +13,10 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@toast-ui/editor": "^3.2.2"
+    "@milkdown/kit": "^7.9.1",
+    "@milkdown/plugin-prism": "^7.9.1",
+    "@milkdown/theme-nord": "^7.9.1",
+    "ink-mde": "^0.34.0",
+    "prism-themes": "^1.9.0"
   }
 }
