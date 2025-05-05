@@ -7,6 +7,7 @@ use Slim\Factory\AppFactory;
 use Middlewares\TrailingSlash;
 use Kami\Notes\Action\SearchAction;
 use Kami\Notes\Action\ShowNoteAction;
+use Kami\Notes\Action\SyncSearchAction;
 use Kami\Notes\Action\UpdateNoteAction;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -20,6 +21,7 @@ $app = AppFactory::create();
 
 $app->redirect('/', '/notes/index', 301);
 $app->post('/search', SearchAction::class);
+$app->post('/sync-search', SyncSearchAction::class);
 $app->get('/notes/{file}/render', ShowNoteAction::class);
 $app->get('/notes[/{file}]', ShowNoteAction::class);
 $app->post('/notes/[{file}]', UpdateNoteAction::class);

@@ -23,11 +23,12 @@ final readonly class SearchAction
             return $response->withStatus(400);
         }
 
-        $searchParameters = \Loupe\Loupe\SearchParameters::create()->withQuery($searchbody->query);
-        $searchResults = $this->search->search($searchParameters);
+        $searchResults = $this->search->search($searchbody->toSearchParameters());
+
         $response->getBody()->write(json_encode($searchResults->getHits(), JSON_PRETTY_PRINT));
         $response = $response->withHeader('Content-Type', 'application/json');
         $response = $response->withStatus(200);
+
         return $response;
     }
 }

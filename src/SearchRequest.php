@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Kami\Notes;
 
+use Loupe\Loupe\SearchParameters;
 use Psr\Http\Message\RequestInterface;
 
 final readonly class SearchRequest
 {
-    public function __construct(
+    private function __construct(
         public string $query,
     ) {
     }
@@ -23,5 +24,10 @@ final readonly class SearchRequest
         return new self(
             query: $payload['query'] ?? '',
         );
+    }
+
+    public function toSearchParameters(): SearchParameters
+    {
+        return SearchParameters::create()->withQuery($this->query);
     }
 }

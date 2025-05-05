@@ -1,0 +1,21 @@
+.cm-editor .cm-content{
+    font-family: "Fira Code", monospace;
+}
+
+.cm-editor .cm-gutters {
+    background: none;
+    color: var(--uchu-gray-3);
+    border: 0;
+}
+
+.cm-editor .cm-lineNumbers .cm-gutterElement {
+    padding: 0 1rem 0 0;
+}
+
+.cm-editor .cm-zapis-codeblock {
+    background-color: var(--uchu-gray-1);
+}
+
+.cm-editor .cm-zapis-codeblock.cm-zapis-open-codeblock {
+    background-color: var(--uchu-gray-2);
+}

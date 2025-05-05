@@ -21,7 +21,8 @@ final readonly class FileNoteMapper
         $path = rtrim(str_replace($this->config->contentFolderPath, '', $source->getPath()), '/') . DIRECTORY_SEPARATOR . $source->getFilename();
 
         return new Note(
-            id: new NoteId($source->getFilenameWithoutExtension()),
+            id: new NoteId($path),
+            title: $source->getFilenameWithoutExtension(),
             content: $source->getContents(),
             path: $path,
             extension: $source->getExtension(),

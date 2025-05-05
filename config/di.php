@@ -12,7 +12,6 @@ use Loupe\Loupe\LoupeFactory;
 use Loupe\Loupe\Configuration;
 use Twig\Loader\FilesystemLoader;
 use Monolog\Handler\StreamHandler;
-use Loupe\Loupe\Config\TypoTolerance;
 use Psr\Container\ContainerInterface;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
@@ -51,10 +50,10 @@ return [
         /** @var Config $config */
         $config = $c->get(Config::class);
 
-        $configuration = Configuration::create()
-            ->withFilterableAttributes(['title'])
-            ->withTypoTolerance(TypoTolerance::create()->withFirstCharTypoCountsDouble(false));
+        $configuration = Configuration::create()->withSortableAttributes(['path'])->withLanguages(['en', 'hr']);
 
         return (new LoupeFactory())->create($config->contentFolderPath, $configuration);
-    }
+    },
+
+    \Kami\Notes\Domain\NoteRepository::class => DI\autowire(\Kami\Notes\FileNoteRepository::class),
 ];

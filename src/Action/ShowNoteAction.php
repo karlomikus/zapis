@@ -30,7 +30,7 @@ final readonly class ShowNoteAction
         }
 
         $dto = new NoteViewModel(
-            title: $note->id->value,
+            title: $note->title,
             markdown: $note->content,
             html: (string) $this->converter->convert($note->content),
             path: $note->path,
