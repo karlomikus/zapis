@@ -182,7 +182,7 @@ body {
 
 .plain-editor {
     width: 100%;
-    display: block;
+    display: none;
     resize: none;
     border: none;
     height: 1000px;
@@ -238,19 +238,14 @@ dialog::backdrop {
     background-color: rgba(41, 27, 21, 0.3);
 }
 
-.status-bar {
-    display: none;
+.toasts {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    background-color: var(--uchu-green-8);
-    color: var(--uchu-green-1);
-    width: 100%;
-    padding: 2px;
-    text-align: center;
+    top: 5rem;
 }
 
-.ink-mde .cm-line {
-    line-height: 1.4 !important;
-    font-family: "Fira Code" !important;
+.toasts-toast {
+    background-color: var(--uchu-green-1);
+    color: var(--uchu-green-9);
+    padding: 2px 5px;
+    text-align: center;
 }

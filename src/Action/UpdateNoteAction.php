@@ -29,6 +29,7 @@ final readonly class UpdateNoteAction
             $extension = 'md';
             $note = new Note(
                 id: $noteId,
+                title: 'New note',
                 content: '',
                 path: $noteId . '.' . $extension,
                 extension: $extension, // TODO: Pull from header

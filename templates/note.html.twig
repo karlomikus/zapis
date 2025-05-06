@@ -5,8 +5,9 @@
         <div class="note-header">
             <h3>{{ note.path }}</h3>
             <h2 id="note-title">{{ note.title }}</h2>
+            <small>{{ note.lastModified }}</small>
         </div>
-        <textarea class="plain-editor" spellcheck="false" id="note-content" style="display: none;">{{ note.markdown | raw }}</textarea>
+        <textarea class="plain-editor" spellcheck="false" id="note-initial-content">{{ note.markdown | raw }}</textarea>
         <div id="editor" spellcheck="false"></div>
     </div>
 {% endblock %}

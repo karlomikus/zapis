@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Kami\Notes\Domain;
 
+use DateTimeImmutable;
+
 final class Note
 {
     public function __construct(
@@ -12,6 +14,7 @@ final class Note
         public string $content,
         public string $path,
         public string $extension,
+        public DateTimeImmutable $lastModified = new DateTimeImmutable(),
     ) {
     }
 

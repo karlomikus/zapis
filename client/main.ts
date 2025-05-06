@@ -2,15 +2,6 @@ import "./reset.css";
 import "./styles.css";
 import "./editor.css";
 
-declare global {
-  interface Window {
-    syncSearch: () => void;
-    addNewNote: () => void;
-    showCommandPanel: () => void;
-    saveNote: (noteId: string) => Promise<void>;
-  }
-}
-
 import { dropCursor, EditorView, keymap, lineNumbers, ViewPlugin, Decoration } from "@codemirror/view"
 import { markdown } from "@codemirror/lang-markdown"
 import { languages } from "@codemirror/language-data"
@@ -20,15 +11,39 @@ import { bracketMatching, defaultHighlightStyle, indentOnInput, syntaxHighlighti
 import { closeBrackets } from "@codemirror/autocomplete";
 import { highlightSelectionMatches } from "@codemirror/search";
 
-const mainNoteContent = document.querySelector('#note-content') as HTMLTextAreaElement;
 
-const codeBlockSyntaxNodes = [
-  'CodeBlock',
-  'FencedCode',
-]
-const codeBlockDecoration = Decoration.line({ attributes: { class: 'cm-zapis-codeblock' } })
-const codeBlockOpenDecoration = Decoration.line({ attributes: { class: 'cm-zapis-open-codeblock' } })
-const codeBlockCloseDecoration = Decoration.line({ attributes: { class: 'cm-zapis-close-codeblock' } })
+declare global {
+  interface Window {
+    syncSearch: () => void;
+    addNewNote: () => void;
+    showCommandPanel: () => void;
+    saveNote: (noteId: string) => Promise<void>;
+  }
+}
+
+function fadeOutElement(element: HTMLElement, duration: number) {
+  element.style.opacity = '1';
+
+  element.addEventListener('transitionend', () => {
+    element.remove();
+  }, { once: true });
+
+  setTimeout(() => {
+    element.style.transition = `opacity 250ms`;
+    element.style.opacity = '0';
+  }, duration);
+}
+
+function showToast(message: string) {
+  const toast = document.createElement('div');
+  toast.className = 'toasts-toast';
+  toast.innerText = message;
+
+  const toastsContainer = document.querySelector('.toasts') as HTMLDivElement;
+  toastsContainer.appendChild(toast);
+
+  fadeOutElement(toast, 750);
+}
 
 // Decorate fenced markdown code blocks
 const decorateLines = (view: EditorView) => {
@@ -42,19 +57,31 @@ const decorateLines = (view: EditorView) => {
       tree.iterate({
         enter({ type, from, to }) {
           if (type.name !== 'Document') {
-            if (codeBlockSyntaxNodes.includes(type.name)) {
-              builder.add(line.from, line.from, codeBlockDecoration)
+            if (['CodeBlock', 'FencedCode'].includes(type.name)) {
+              builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-codeblock' } }))
 
               const openLine = view.state.doc.lineAt(from)
               const closeLine = view.state.doc.lineAt(to)
 
               if (openLine.number === line.number)
-                builder.add(line.from, line.from, codeBlockOpenDecoration)
+                builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-open-codeblock' } }))
 
               if (closeLine.number === line.number)
-                builder.add(line.from, line.from, codeBlockCloseDecoration)
+                builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-close-codeblock' } }))
 
               return false
+            } else if (type.name === 'ATXHeading1') {
+              builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-h1' } }))
+            } else if (type.name === 'ATXHeading2') {
+              builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-h2' } }))
+            } else if (type.name === 'ATXHeading3') {
+              builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-h3' } }))
+            } else if (type.name === 'ATXHeading4') {
+              builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-h4' } }))
+            } else if (type.name === 'ATXHeading5') {
+              builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-h5' } }))
+            } else if (type.name === 'ATXHeading6') {
+              builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-h6' } }))
             }
           }
         },
@@ -77,8 +104,9 @@ const codeBlockPlugin = ViewPlugin.define((view: EditorView) => {
   }
 }, { decorations: plugin => plugin.update() })
 
-new EditorView({
-  doc: mainNoteContent.value,
+const mainNoteContent = document.querySelector('#note-initial-content') as HTMLTextAreaElement | null;
+const editor = new EditorView({
+  doc: mainNoteContent?.value ?? '',
   parent: document.getElementById('editor')!,
   extensions: [
     lineNumbers(),
@@ -138,33 +166,27 @@ window.syncSearch = async () => {
   const response = await fetch(url, options)
 }
 
-// window.saveNote = async (noteId: string) => {
-//   // POST request to /noteId
-//   // const content = (document.querySelector('#note-content') as HTMLTextAreaElement).value;
-//   const content = editor.getMarkdown();
-//   const title = (document.querySelector('#note-content') as HTMLHeadingElement).innerText;
-//   const statusBar = document.querySelector('#status-bar') as HTMLDivElement;
-//   const url = `/notes/${noteId}`;
-//   const method = 'POST';
-//   const options: RequestInit = {
-//     method,
-//     headers: {
-//       'Content-Type': 'text/plain',
-//     },
-//     body: content,
-//   };
-//   const response = await fetch(url, options)
-//   // if (response.ok) {
-//   //   statusBar.style.display = 'block';
-//   // }
-// }
+window.saveNote = async (noteId: string) => {
+  const content = editor.state.doc.toString();
+  const url = `/notes/${noteId}`;
+  const method = 'POST';
+  const options: RequestInit = {
+    method,
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+    body: content,
+  };
+  const response = await fetch(url, options)
+  if (response.ok) {
+    showToast('Note saved successfully');
+  }
+}
 
 document.addEventListener('keydown', e => {
+  const title = (document.querySelector('#note-title') as HTMLHeadingElement).innerText;
   if (e.ctrlKey && e.key === 's') {
-    // Prevent the Save dialog to open
     e.preventDefault();
-    // Place your code here
-    console.log('CTRL + S');
-    // window.saveNote('tefx')
+    window.saveNote(title)
   }
 });

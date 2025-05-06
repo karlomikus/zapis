@@ -19,3 +19,27 @@
 .cm-editor .cm-zapis-codeblock.cm-zapis-open-codeblock {
     background-color: var(--uchu-gray-2);
 }
+
+.cm-editor .cm-zapis-h1 {
+    font-size: 1.5em;
+}
+
+.cm-editor .cm-zapis-h2 {
+    font-size: 1.25em;
+}
+
+.cm-editor .cm-zapis-h3 {
+    font-size: 1.125em;
+}
+
+.cm-editor .cm-zapis-h4 {
+    font-size: 1em;
+}
+
+.cm-editor .cm-zapis-h5 {
+    font-size: 0.875em;
+}
+
+.cm-editor .cm-zapis-h6 {
+    font-size: 0.75em;
+}

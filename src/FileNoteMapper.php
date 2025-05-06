@@ -26,6 +26,7 @@ final readonly class FileNoteMapper
             content: $source->getContents(),
             path: $path,
             extension: $source->getExtension(),
+            lastModified: $source->getMTime() !== false ? new \DateTimeImmutable('@' . $source->getMTime()) : new \DateTimeImmutable(),
         );
     }
 }

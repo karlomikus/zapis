@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Kami\Notes\Action;
 
 use Twig\Environment;
+use Kami\Notes\Domain\Note;
 use Kami\Notes\Domain\NoteId;
-use Kami\Notes\FileNoteRepository;
 use Kami\Notes\NoteViewModel;
+use Kami\Notes\FileNoteRepository;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use League\CommonMark\ConverterInterface;
@@ -26,7 +27,15 @@ final readonly class ShowNoteAction
         $noteId = $args['file'] ?? 'index';
         $note = $this->repository->find(new NoteId($noteId));
         if ($note === null) {
-            return $response->withStatus(404);
+            $note = new Note(
+                id: new NoteId($noteId),
+                title: $noteId,
+                content: '',
+                path: $noteId . '.md',
+                extension: 'md',
+            );
+
+            // return $response->withStatus(404);
         }
 
         $dto = new NoteViewModel(
@@ -34,6 +43,7 @@ final readonly class ShowNoteAction
             markdown: $note->content,
             html: (string) $this->converter->convert($note->content),
             path: $note->path,
+            lastModified: $note->lastModified->format('Y-m-d H:i:s'),
         );
 
         $body = $this->twig->render('note.html.twig', [

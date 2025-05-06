@@ -11,6 +11,7 @@ final readonly class NoteViewModel
         public string $markdown,
         public string $html,
         public string $path = '',
+        public string $lastModified = '',
     ) {
     }
 }
