@@ -7,6 +7,7 @@ namespace Kami\Notes;
 final readonly class NoteViewModel
 {
     public function __construct(
+        public string $id,
         public string $title,
         public string $markdown,
         public string $html,

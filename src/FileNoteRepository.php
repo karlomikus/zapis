@@ -18,7 +18,7 @@ final readonly class FileNoteRepository implements NoteRepository
     public function __construct(private FileNoteMapper $mapper, private Config $config, private LoggerInterface $logger)
     {
         $finder = new Finder();
-        $finder->files()->in($config->contentFolderPath);
+        $finder->ignoreUnreadableDirs()->in($config->contentFolderPath)->name(['*.md', '*.txt', '*.markdown']);
 
         $this->finder = $finder;
     }
@@ -41,14 +41,14 @@ final readonly class FileNoteRepository implements NoteRepository
 
     public function find(NoteId $identifier): ?Note
     {
-        $files = $this->finder->sortByModifiedTime();
+        $files = $this->finder->path($identifier->value);
 
         if (!$files->hasResults()) {
             return null;
         }
 
         foreach ($files as $file) {
-            if ($file->getFilenameWithoutExtension() === $identifier->value) {
+            if ($file->getPathname() === $this->config->contentFolderPath . DIRECTORY_SEPARATOR . $identifier->value) {
                 return $this->mapper->map($file);
             }
         }
@@ -58,7 +58,28 @@ final readonly class FileNoteRepository implements NoteRepository
 
     public function save(Note $note): bool
     {
-        $file = file_put_contents($this->config->contentFolderPath . DIRECTORY_SEPARATOR . $note->path, $note->content, LOCK_EX);
+        $notePath = $this->config->contentFolderPath . DIRECTORY_SEPARATOR . ltrim($note->path, DIRECTORY_SEPARATOR);
+
+        if (is_dir($notePath)) {
+            $this->logger->error('Cannot save file, path is a directory', [
+                'path' => $notePath,
+            ]);
+
+            return false;
+        }
+
+        $dirname = dirname($notePath);
+        if (!file_exists($dirname)) {
+            if (!mkdir(directory: $dirname, recursive: true)) {
+                $this->logger->error('Cannot create directory', [
+                    'path' => $dirname,
+                ]);
+
+                return false;
+            }
+        }
+
+        $file = file_put_contents($notePath, $note->content, LOCK_EX);
         if ($file === false) {
             return false;
         }

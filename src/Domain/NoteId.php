@@ -13,11 +13,6 @@ final readonly class NoteId implements Stringable
     ) {
     }
 
-    public static function create(): self
-    {
-        return new self(uniqid('', true));
-    }
-
     public function __toString(): string
     {
         return $this->value;

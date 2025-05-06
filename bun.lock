@@ -12,6 +12,7 @@
         "@codemirror/search": "^6.5.10",
         "@codemirror/state": "^6.5.2",
         "@codemirror/view": "^6.36.7",
+        "@uiw/codemirror-extensions-hyper-link": "^4.23.12",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -119,6 +120,8 @@
     "@types/bun": ["@types/bun@1.2.12", "", { "dependencies": { "bun-types": "1.2.12" } }, "sha512-lY/GQTXDGsolT/TiH72p1tuyUORuRrdV7VwOTOjDOt8uTBJQOJc5zz3ufwwDl0VBaoxotSk4LdP0hhjLJ6ypIQ=="],
 
     "@types/node": ["@types/node@22.15.3", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-lX7HFZeHf4QG/J7tBZqrCAXwz9J5RD56Y6MpP0eJkka8p+K0RY/yBTW7CYFJ4VGCclxqOLKmiGP5juQc6MKgcw=="],
+
+    "@uiw/codemirror-extensions-hyper-link": ["@uiw/codemirror-extensions-hyper-link@4.23.12", "", { "peerDependencies": { "@codemirror/state": ">=6.0.0", "@codemirror/view": ">=6.0.0" } }, "sha512-PVknlqnZNXD9klgYgzCoeCV6yyr7wCrs61igXgavMn2U6MaOuTFsJW6i8PUQc/+8YRGnRzrWyTu5hp8ljqhiDg=="],
 
     "bun-types": ["bun-types@1.2.12", "", { "dependencies": { "@types/node": "*" } }, "sha512-tvWMx5vPqbRXgE8WUZI94iS1xAYs8bkqESR9cxBB1Wi+urvfTrF1uzuDgBHFAdO0+d2lmsbG3HmeKMvUyj6pWA=="],
 

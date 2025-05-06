@@ -22,9 +22,8 @@ $app = AppFactory::create();
 $app->redirect('/', '/notes/index', 301);
 $app->post('/search', SearchAction::class);
 $app->post('/sync-search', SyncSearchAction::class);
-$app->get('/notes/{file}/render', ShowNoteAction::class);
-$app->get('/notes[/{file}]', ShowNoteAction::class);
-$app->post('/notes/[{file}]', UpdateNoteAction::class);
+$app->get('/notes[/{file:.*}]', ShowNoteAction::class);
+$app->post('/notes/[{file:.*}]', UpdateNoteAction::class);
 
 $app->add(new TrailingSlash());
 

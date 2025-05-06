@@ -31,14 +31,15 @@ final readonly class ShowNoteAction
                 id: new NoteId($noteId),
                 title: $noteId,
                 content: '',
-                path: $noteId . '.md',
-                extension: 'md',
+                path: $noteId,
+                extension: 'UNKNOWN',
             );
 
             // return $response->withStatus(404);
         }
 
         $dto = new NoteViewModel(
+            id: $note->id->value,
             title: $note->title,
             markdown: $note->content,
             html: (string) $this->converter->convert($note->content),

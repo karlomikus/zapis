@@ -18,14 +18,6 @@ final class Note
     ) {
     }
 
-    public function move(string $newPath, ?string $extension = null): void
-    {
-        $this->path = $newPath;
-        if ($extension !== null) {
-            $this->extension = $extension;
-        }
-    }
-
     public function toSearchDocument(): array
     {
         return [
@@ -33,5 +25,10 @@ final class Note
             'title' => $this->title,
             'path' => $this->path,
         ];
+    }
+
+    public function getDirectoryPath(): string
+    {
+        return dirname($this->path);
     }
 }

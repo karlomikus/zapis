@@ -10,7 +10,7 @@ import { EditorState, RangeSetBuilder } from "@codemirror/state";
 import { bracketMatching, defaultHighlightStyle, indentOnInput, syntaxHighlighting, syntaxTree } from "@codemirror/language";
 import { closeBrackets } from "@codemirror/autocomplete";
 import { highlightSelectionMatches } from "@codemirror/search";
-
+import { hyperLink } from '@uiw/codemirror-extensions-hyper-link';
 
 declare global {
   interface Window {
@@ -137,6 +137,7 @@ const editor = new EditorView({
     EditorView.lineWrapping,
     EditorState.allowMultipleSelections.of(true),
     codeBlockPlugin,
+    hyperLink,
     keymap.of([
       ...historyKeymap,
     ])
@@ -200,9 +201,13 @@ window.saveNote = async (noteId: string) => {
 }
 
 document.addEventListener('keydown', e => {
-  const title = (document.querySelector('#note-title') as HTMLHeadingElement).innerText;
+  const id = (document.querySelector('#note-id') as HTMLInputElement | null);
+  if (!id) {
+    return;
+  }
+
   if (e.ctrlKey && e.key === 's') {
     e.preventDefault();
-    window.saveNote(title)
+    window.saveNote(id.value)
   }
 });
