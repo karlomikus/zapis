@@ -3,7 +3,7 @@ import "./styles.css";
 import "./editor.css";
 
 import { dropCursor, EditorView, keymap, lineNumbers, ViewPlugin, Decoration } from "@codemirror/view"
-import { markdown } from "@codemirror/lang-markdown"
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown"
 import { languages } from "@codemirror/language-data"
 import { history, historyKeymap } from "@codemirror/commands";
 import { EditorState, RangeSetBuilder } from "@codemirror/state";
@@ -53,6 +53,7 @@ const decorateLines = (view: EditorView) => {
   for (const visibleRange of view.visibleRanges) {
     for (let position = visibleRange.from; position < visibleRange.to;) {
       const line = view.state.doc.lineAt(position)
+      let inlineCode: { from: number, to: number, innerFrom: number, innerTo: number }
 
       tree.iterate({
         enter({ type, from, to }) {
@@ -82,6 +83,21 @@ const decorateLines = (view: EditorView) => {
               builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-h5' } }))
             } else if (type.name === 'ATXHeading6') {
               builder.add(line.from, line.from, Decoration.line({ attributes: { class: 'cm-zapis-h6' } }))
+            } else if (type.name === 'InlineCode') {
+              // Store a reference for the last inline code node.
+              inlineCode = { from, to, innerFrom: from, innerTo: to }
+            } else if (type.name === 'CodeMark') {
+              // Make sure the code mark is a part of the previously stored inline code node.
+              if (from === inlineCode.from) {
+                inlineCode.innerFrom = to
+
+                builder.add(from, to, Decoration.mark({ attributes: { class: 'cm-zapis-open-inlinecode' } }))
+              } else if (to === inlineCode.to) {
+                inlineCode.innerTo = from
+
+                builder.add(inlineCode.innerFrom, inlineCode.innerTo, Decoration.mark({ attributes: { class: 'cm-zapis-inlinecode' } }))
+                builder.add(from, to, Decoration.mark({ attributes: { class: 'cm-zapis-close-inlinecode' } }))
+              }
             }
           }
         },
@@ -117,7 +133,7 @@ const editor = new EditorView({
     closeBrackets(),
     highlightSelectionMatches(),
     syntaxHighlighting(defaultHighlightStyle),
-    markdown({ codeLanguages: languages }),
+    markdown({ base: markdownLanguage, codeLanguages: languages }),
     EditorView.lineWrapping,
     EditorState.allowMultipleSelections.of(true),
     codeBlockPlugin,

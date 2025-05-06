@@ -12,11 +12,14 @@
     padding: 0 1rem 0 0;
 }
 
-.cm-editor .cm-zapis-codeblock {
+.cm-editor .cm-zapis-codeblock,
+.cm-editor .cm-zapis-inlinecode {
     background-color: var(--uchu-gray-1);
 }
 
-.cm-editor .cm-zapis-codeblock.cm-zapis-open-codeblock {
+.cm-editor .cm-zapis-codeblock.cm-zapis-open-codeblock,
+.cm-editor .cm-zapis-open-inlinecode,
+.cm-editor .cm-zapis-close-inlinecode {
     background-color: var(--uchu-gray-2);
 }
 
