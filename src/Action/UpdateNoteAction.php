@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Kami\Notes\Action;
 
-use Kami\Notes\Domain\Note;
-use Kami\Notes\Domain\NoteId;
-use Kami\Notes\FileNoteRepository;
+use Throwable;
+use Kami\Notes\NoteService;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 final readonly class UpdateNoteAction
 {
-    public function __construct(private FileNoteRepository $repository)
+    public function __construct(private NoteService $service)
     {
     }
 
@@ -22,27 +21,17 @@ final readonly class UpdateNoteAction
     public function __invoke(RequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $noteId = $args['file'] ?? '';
-        $noteId = new NoteId($noteId);
 
-        $note = $this->repository->find($noteId);
-        if ($note === null) {
-            $path = $noteId->value;
-            if (!str_ends_with($noteId->value, '.md')) {
-                $path = $noteId->value . '.md';
-            }
-
-            $note = new Note(
-                id: $noteId,
-                title: 'New note',
-                content: '',
-                path: $path,
-                extension: 'md',
+        try {
+            $this->service->putNote(
+                $noteId,
+                (string) $request->getBody()->getContents()
             );
+        } catch (Throwable $e) {
+            $response->getBody()->write('Error: ' . $e->getMessage());
+
+            return $response->withStatus(500);
         }
-
-        $note->content = (string) $request->getBody()->getContents();
-
-        $this->repository->save($note);
 
         return $response;
     }

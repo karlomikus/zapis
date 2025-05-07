@@ -172,8 +172,19 @@ body {
     padding: 0.25rem 0;
 }
 
-.nav-header h1 {
+.logotype {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logotype h1 {
     font-size: 1.5em;
+}
+
+.logotype svg {
+    width: 20px;
+    fill: var(--uchu-orange-5);
 }
 
 .nav-header-actions {
