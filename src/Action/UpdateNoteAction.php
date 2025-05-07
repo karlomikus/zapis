@@ -26,13 +26,17 @@ final readonly class UpdateNoteAction
 
         $note = $this->repository->find($noteId);
         if ($note === null) {
-            $extension = 'md';
+            $path = $noteId->value;
+            if (!str_ends_with($noteId->value, '.md')) {
+                $path = $noteId->value . '.md';
+            }
+
             $note = new Note(
                 id: $noteId,
                 title: 'New note',
                 content: '',
-                path: $noteId . '.' . $extension,
-                extension: $extension, // TODO: Pull from header
+                path: $path,
+                extension: 'md',
             );
         }
 

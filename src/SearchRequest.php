@@ -16,6 +16,9 @@ final readonly class SearchRequest
 
     public static function fromRequest(RequestInterface $request): ?self
     {
+        /**
+         * @var array{query?: string|null}|null $payload
+         */
         $payload = json_decode((string) $request->getBody()->getContents(), true);
         if ($payload === null) {
             return null;

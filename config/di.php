@@ -13,8 +13,6 @@ use Loupe\Loupe\Configuration;
 use Twig\Loader\FilesystemLoader;
 use Monolog\Handler\StreamHandler;
 use Psr\Container\ContainerInterface;
-use League\CommonMark\ConverterInterface;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 return [
     Config::class => function () {
@@ -28,13 +26,6 @@ return [
         $log->pushHandler(new StreamHandler('php://stdout', Level::Info));
 
         return $log;
-    },
-
-    ConverterInterface::class => function () {
-        return new GithubFlavoredMarkdownConverter([
-            'html_input' => 'strip',
-            'allow_unsafe_links' => false,
-        ]);
     },
 
     Environment::class => function () {

@@ -15,7 +15,7 @@ final readonly class SyncSearchAction
     {
     }
 
-    public function __invoke(RequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function __invoke(RequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $this->search->deleteAllDocuments();
 

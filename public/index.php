@@ -19,10 +19,10 @@ $container = $builder->build();
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 
-$app->redirect('/', '/notes/index', 301);
+$app->redirect('/', '/notes/index.md', 301);
 $app->post('/search', SearchAction::class);
 $app->post('/sync-search', SyncSearchAction::class);
-$app->get('/notes[/{file:.*}]', ShowNoteAction::class);
+$app->get('/notes[/{file:.*}]', ShowNoteAction::class); // TODO regex match for valid files
 $app->post('/notes/[{file:.*}]', UpdateNoteAction::class);
 
 $app->add(new TrailingSlash());

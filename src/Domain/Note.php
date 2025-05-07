@@ -18,6 +18,9 @@ final class Note
     ) {
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function toSearchDocument(): array
     {
         return [
