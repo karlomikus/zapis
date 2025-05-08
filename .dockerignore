@@ -1,0 +1,14 @@
+.git
+.github
+content
+node_modules
+tests
+var
+vendor
+.vscode
+.gitignore
+.php-cs-fixer.cache
+.php-cs-fixer.dist.php
+docker-compose.*
+phpstan.neon
+public/assets

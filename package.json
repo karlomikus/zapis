@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "bun build --entrypoints ./client/main.ts --outdir ./public/assets --minify --format esm --watch"
+    "build": "bun build --entrypoints ./client/main.ts --outdir ./public/assets --minify --format esm --watch",
+    "dist" : "bun build --entrypoints ./client/main.ts --outdir ./public/assets --minify --format esm"
   },
   "devDependencies": {
     "@types/bun": "latest"
