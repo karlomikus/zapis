@@ -168,6 +168,7 @@ a:hover, a:focus {
 .container {
     max-width: var(--main-width);
     margin: 0 auto;
+    padding: 0 0.5rem;
 }
 
 .main-page-header {
@@ -325,6 +326,7 @@ dialog::backdrop {
 .toasts {
     position: fixed;
     top: 5rem;
+    z-index: 2;
 }
 
 .toasts-toast {
@@ -332,4 +334,11 @@ dialog::backdrop {
     color: var(--uchu-green-9);
     padding: 2px 5px;
     text-align: center;
+}
+
+.global-note-actions {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    z-index: 2;
 }

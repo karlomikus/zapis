@@ -1,6 +1,9 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
+    <div class="global-note-actions">
+        <button class="button button--basic" onclick="saveNote('{{ note.id }}')">Save</button>
+    </div>
     <div class="note">
         <div class="note-header">
             <h3>{{ note.path }}</h3>
