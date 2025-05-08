@@ -18,6 +18,7 @@ return [
     Config::class => function () {
         return new Config(
             contentFolderPath: rtrim(__DIR__ . '/../content', '/'),
+            environment: $_ENV['APP_ENV'] ?? 'dev',
         );
     },
 
@@ -28,13 +29,20 @@ return [
         return $log;
     },
 
-    Environment::class => function () {
+    Environment::class => function (ContainerInterface $c) {
+        /** @var Config $config */
+        $config = $c->get(Config::class);
+
         $loader = new FilesystemLoader(__DIR__ . '/../templates');
 
-        return new Environment($loader, [
-            //'cache' => __DIR__ . '/../cache',
-            'debug' => true,
-        ]);
+        $options = [];
+        if ($config->environment === 'dev') {
+            $options['debug'] = true;
+        } else {
+            $options['cache'] = __DIR__ . '/../var';
+        }
+
+        return new Environment($loader, $options);
     },
 
     Loupe::class => function (ContainerInterface $c) {

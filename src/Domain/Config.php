@@ -8,6 +8,7 @@ final readonly class Config
 {
     public function __construct(
         public string $contentFolderPath,
+        public string $environment = 'dev',
     ) {
     }
 }

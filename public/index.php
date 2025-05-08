@@ -14,6 +14,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $builder = new ContainerBuilder();
 $builder->addDefinitions(require __DIR__ . '/../config/di.php');
+if (($_ENV['APP_ENV'] ?? 'dev') === 'prod') {
+    $builder->enableCompilation(__DIR__ . '/../var');
+}
 $container = $builder->build();
 
 AppFactory::setContainer($container);
