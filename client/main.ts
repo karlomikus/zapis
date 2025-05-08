@@ -41,21 +41,6 @@ function showToast(message: string) {
   fadeOutElement(toast, 750);
 }
 
-window.addNewNote = () => {
-  const dialog = document.querySelector('#newNoteDialog') as HTMLDialogElement;
-  if (!dialog) {
-    console.error('Dialog not found');
-    return;
-  }
-
-  const closeButton = dialog.querySelector('.close') as HTMLButtonElement;
-  closeButton.addEventListener('click', () => {
-    dialog.close();
-  });
-
-  dialog.showModal();
-}
-
 window.showCommandPanel = () => {
   const dialog = document.querySelector('#commandPanelDialog') as HTMLDialogElement;
   if (!dialog) {
@@ -78,12 +63,20 @@ window.syncSearch = async () => {
     method,
   };
   const response = await fetch(url, options)
+  if (response.ok) {
+    showToast('Sync searched successfully');
+  }
 }
 
 window.doSearch = async (term: string) => {
   const payload = {
     query: term,
   };
+
+  let result = [];
+  if (term) {
+    result.push({ id: term + '.md', title: 'Create/open new note', path: term + '.md' })
+  }
 
   const url = `/search`;
   const method = 'POST';
@@ -92,10 +85,9 @@ window.doSearch = async (term: string) => {
     body: JSON.stringify(payload),
   };
   const response = await fetch(url, options)
-  const result = await response.json();
-  if (result) {
-    renderSearchResults(result)
-  }
+  const apiResults = await response.json();
+  result = [...result, ...apiResults];
+  renderSearchResults(result)
 }
 
 let searchTimeout: number | null = null;
@@ -108,7 +100,7 @@ document.getElementById('command-input')?.addEventListener('keyup', (e: Keyboard
   searchTimeout = window.setTimeout(() => {
     window.doSearch((e.target as HTMLInputElement).value);
     searchTimeout = null;
-  }, 250);
+  }, 200);
 })
 
 function renderSearchResults(results: any[]) {

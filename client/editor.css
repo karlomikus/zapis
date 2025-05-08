@@ -57,3 +57,8 @@
 .cm-editor .cm-zapis-h6 {
     font-size: 0.75em;
 }
+
+.cm-editor .cm-hyper-link-icon {
+    background-color: var(--uchu-orange-1);
+    border-radius: 50%;
+}

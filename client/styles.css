@@ -227,6 +227,12 @@ a:hover, a:focus {
     font-weight: bold;
 }
 
+.button.button--basic {
+    padding: 0.25rem 0.75rem;
+    background-color: var(--uchu-yin-1);
+    color: var(--uchu-yin-9);
+}
+
 .button:hover, .button:focus, .button:active {
     background: var(--uchu-red-1);
     color: var(--uchu-red-8);
@@ -308,6 +314,12 @@ dialog::backdrop {
 
 .command-item:hover {
     background-color: var(--uchu-gray-1);
+}
+
+.command-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
 }
 
 .toasts {
