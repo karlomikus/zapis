@@ -1,5 +1,5 @@
 .cm-editor .cm-content {
-    font-family: "Fira Code", monospace;
+    font-family: var(--font-editor);
 }
 
 .cm-editor.cm-focused {

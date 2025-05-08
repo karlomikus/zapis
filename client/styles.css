@@ -126,6 +126,7 @@
 
     --main-width: 800px;
     --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantrell, "Open Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-editor: "Fira Code", "Courier New", monospace;
 
     --shadow-color: 18deg 6% 56%;
     --shadow-elevation-low:
@@ -154,6 +155,14 @@ body {
     font-size: 16px;
     margin: 0;
     background-color: #fff;
+}
+
+a {
+    color: var(--uchu-orange-7);
+}
+
+a:hover, a:focus {
+    color: var(--uchu-red-7);
 }
 
 .container {
@@ -218,6 +227,11 @@ body {
     font-weight: bold;
 }
 
+.button:hover, .button:focus, .button:active {
+    background: var(--uchu-red-1);
+    color: var(--uchu-red-8);
+}
+
 .note {
     display: flex;
     flex-direction: column;
@@ -239,14 +253,61 @@ body {
 
 dialog {
     margin: 1rem auto;
-    border-radius: 0.25rem;
-    background-color: var(--uchu-orange-1);
-    border: 1px solid var(--uchu-orange-8);
+    padding: 0;
+    background-color: #fff;
+    border: 0;
     box-shadow: var(--shadow-elevation-medium), inset 0 1px 0 #fff;
+    max-width: 400px;
+    width: 100%;
 }
 
 dialog::backdrop {
     background-color: rgba(41, 27, 21, 0.3);
+}
+
+.command-panel-dialog {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-input {
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-size: 1.25em;
+    padding: 0.5rem 0.75rem;
+    color: var(--uchu-yin-9);
+    background: #fff;
+    border: 0;
+    border-bottom: 2px solid var(--uchu-yin-2);
+    appearance: none;
+    border-radius: 0;
+    outline-color: transparent;
+}
+
+.form-input:focus {
+    outline: none;
+}
+
+.command-results {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.command-item {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.command-item p {
+    color: var(--uchu-yin-8);
+    font-size: 0.85em;
+}
+
+.command-item:hover {
+    background-color: var(--uchu-gray-1);
 }
 
 .toasts {

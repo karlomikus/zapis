@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>[⚡] Zapis</title>
+        <title>TODO TITLE - [⚡] Zapis</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/assets/main.css">
+        <link rel="icon" href="/favicon.png" type="image/png">
     </head>
     <body>
         <div id="toasts" class="toasts"></div>
@@ -17,11 +18,11 @@
                         <h1 class="logotype-text">zapis</h1>
                     </div>
                     <div class="nav-header-actions">
-                        <button type="button" class="button" onclick="addNewNote()">
+                        {# <button type="button" class="button" onclick="addNewNote()">
                             <svg height="32" width="32" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)"><path d="m12.5 10.5v-8c0-1.1045695-.8954305-2-2-2h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2z"/><path d="m6.5 3.5v6.056"/><path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/></g></svg>
-                        </button>
+                        </button> #}
                         <button type="button" class="button" onclick="showCommandPanel()">
-                            <svg width="32" height="32" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 4.5h10a2 2 0 012 2v8a2 2 0 01-2 2h-10a2 2 0 01-2-2v-8a2 2 0 012-2zM10.5 13.5h3"/><path d="M6.5 12.5l2-2-2-2"/></g></g></svg>
+                            <svg width="24" height="24" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 4.5h10a2 2 0 012 2v8a2 2 0 01-2 2h-10a2 2 0 01-2-2v-8a2 2 0 012-2zM10.5 13.5h3"/><path d="M6.5 12.5l2-2-2-2"/></g></g></svg>
                         </button>
                     </div>
                 </div>
@@ -32,18 +33,20 @@
                 {% block content %}{% endblock %}
             </div>
         </div>
-        <dialog id="newNoteDialog">
+        {# <dialog id="newNoteDialog">
             <form action="/" method="POST">
                 <input type="text" id="noteTitle" placeholder="Note Title" required>
                 <button type="submit" class="button">Create Note</button>
             </form>
             <button type="button" class="close" autofocus>Cancel</button>
-        </dialog>
+        </dialog> #}
         <dialog id="commandPanelDialog">
-            <form action="/" method="POST">
-                <input type="text" id="noteTitle" placeholder="Note Title" required>
-            </form>
-            <button type="button" class="close" autofocus>Cancel</button>
+            <div class="command-panel-dialog">
+                <input type="text" class="form-input" id="command-input" placeholder="Search for..." required autofocus onblur="doSearch">
+                <div id="command-results" class="command-results"></div>
+                <button type="button">Sync search</button>
+                <button type="button" class="close">Cancel</button>
+            </div>
         </dialog>
         <script type="module" src="/assets/main.js"></script>
         {% block script %}{% endblock %}
