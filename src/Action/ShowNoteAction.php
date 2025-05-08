@@ -25,6 +25,7 @@ final readonly class ShowNoteAction
         $note = $this->service->getNoteViewModel($noteId);
 
         $body = $this->twig->render('note.html.twig', [
+            'title' => $note->title,
             'note' => $note,
         ]);
 
