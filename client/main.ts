@@ -11,6 +11,7 @@ declare global {
     addNewNote: () => void;
     showCommandPanel: () => void;
     saveNote: (noteId: string) => Promise<void>;
+    deleteNote: (noteId: string) => Promise<void>;
     doSearch: (term: string) => Promise<void>;
   }
 }
@@ -132,6 +133,23 @@ window.saveNote = async (noteId: string) => {
   const response = await fetch(url, options)
   if (response.ok) {
     showToast('Note saved successfully');
+  }
+}
+
+window.deleteNote = async (noteId: string) => {
+  if (!confirm('Are you sure you want to delete this note?')) {
+    return;
+  }
+
+  const url = `/notes/${noteId}`;
+  const method = 'DELETE';
+  const options: RequestInit = {
+    method,
+  };
+  const response = await fetch(url, options)
+  if (response.ok) {
+    showToast('Note deleted successfully');
+    window.location.href = '/';
   }
 }
 

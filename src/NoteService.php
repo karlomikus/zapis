@@ -7,10 +7,11 @@ namespace Kami\Notes;
 use Kami\Notes\Domain\Note;
 use Kami\Notes\Domain\NoteId;
 use Kami\Notes\Domain\NoteRepository;
+use Loupe\Loupe\Loupe;
 
 final readonly class NoteService
 {
-    public function __construct(private NoteRepository $noteRepository)
+    public function __construct(private NoteRepository $noteRepository, private Loupe $loupe)
     {
     }
 
@@ -52,5 +53,14 @@ final readonly class NoteService
         $note->content = $content;
 
         $this->noteRepository->save($note);
+    }
+
+    public function deleteNote(string $noteId): void
+    {
+        $noteId = new NoteId($noteId);
+
+        $this->noteRepository->delete($noteId);
+
+        $this->loupe->deleteDocument($noteId->value);
     }
 }

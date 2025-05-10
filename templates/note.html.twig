@@ -8,7 +8,7 @@
         <div class="note-header">
             <h3>{{ note.path }}</h3>
             <h2>{{ note.title }}</h2>
-            <small>Last modified: {{ note.lastModified }}</small>
+            <small>Last modified: {{ note.lastModified }} &middot; <a href="javascript:;" onclick="deleteNote('{{ note.id }}')">Delete</a></small>
         </div>
         <input type="hidden" id="note-id" value="{{ note.id }}">
         <textarea class="plain-editor" spellcheck="false" id="note-initial-content">{{ note.markdown | raw }}</textarea>

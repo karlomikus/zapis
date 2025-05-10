@@ -14,4 +14,6 @@ interface NoteRepository
     public function find(NoteId $identifier): ?Note;
 
     public function save(Note $note): bool;
+
+    public function delete(NoteId $identifier): void;
 }

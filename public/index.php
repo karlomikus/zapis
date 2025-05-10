@@ -11,6 +11,7 @@ use Kami\Notes\Action\LogoutAction;
 use Kami\Notes\Action\SearchAction;
 use Kami\Notes\Action\ShowAuthAction;
 use Kami\Notes\Action\ShowNoteAction;
+use Kami\Notes\Action\DeleteNoteAction;
 use Kami\Notes\Action\SyncSearchAction;
 use Kami\Notes\Action\UpdateNoteAction;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -54,6 +55,7 @@ $app->post('/search', SearchAction::class);
 $app->post('/sync-search', SyncSearchAction::class);
 $app->get('/notes[/{file:.*}]', ShowNoteAction::class); // TODO regex match for valid files
 $app->post('/notes/[{file:.*}]', UpdateNoteAction::class);
+$app->delete('/notes/[{file:.*}]', DeleteNoteAction::class);
 $app->get('/auth', ShowAuthAction::class);
 $app->post('/auth', AuthAction::class);
 $app->get('/logout', LogoutAction::class);

@@ -90,4 +90,26 @@ final readonly class FileNoteRepository implements NoteRepository
 
         return true;
     }
+
+    public function delete(NoteId $identifier): void
+    {
+        $notePath = $this->config->contentFolderPath . DIRECTORY_SEPARATOR . ltrim($identifier->value, DIRECTORY_SEPARATOR);
+
+        if (is_dir($notePath)) {
+            $this->logger->error('Cannot delete file, path is a directory', [
+                'path' => $notePath,
+            ]);
+
+            return;
+        }
+
+        if (!file_exists($notePath)) {
+            return;
+        }
+
+        unlink($notePath);
+        $this->logger->info('File deleted', [
+            'path' => $notePath,
+        ]);
+    }
 }
