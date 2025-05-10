@@ -13,6 +13,8 @@ use Loupe\Loupe\Configuration;
 use Twig\Loader\FilesystemLoader;
 use Monolog\Handler\StreamHandler;
 use Psr\Container\ContainerInterface;
+use Slim\Psr7\Factory\ResponseFactory;
+use Psr\Http\Message\ResponseFactoryInterface;
 
 return [
     Config::class => function () {
@@ -20,6 +22,10 @@ return [
             contentFolderPath: rtrim(__DIR__ . '/../content', '/'),
             environment: $_ENV['APP_ENV'] ?? 'dev',
         );
+    },
+
+    ResponseFactoryInterface::class => function (ContainerInterface $container) {
+        return $container->get(ResponseFactory::class);
     },
 
     LoggerInterface::class => function () {

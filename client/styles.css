@@ -226,6 +226,7 @@ a:hover, a:focus {
     gap: 0.5rem;
     border-radius: 0.25rem;
     font-weight: bold;
+    text-decoration: none;
 }
 
 .button.button--basic {

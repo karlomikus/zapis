@@ -4,6 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - USERNAME=karlo
+      - PASSWORD=12345
     volumes:
       - .:/var/www/notesapp
     ports:
