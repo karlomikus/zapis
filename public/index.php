@@ -17,25 +17,31 @@ use Psr\Http\Message\ResponseFactoryInterface;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    // 'domain' => 'localhost:8380',
-    'secure' => true,
-    'httponly' => true,
-    'samesite' => 'Strict',
-]);
+$currentEnv = $_ENV['APP_ENV'] ?? 'dev';
+
+if ($currentEnv === 'prod') {
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'domain' => $_SERVER['HTTP_HOST'] ?? null,
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'Strict',
+    ]);
+}
 session_name('zapis');
 session_start([
     'use_strict_mode' => true,
+    'use_only_cookies' => true,
 ]);
+session_regenerate_id(true);
 if (session_status() !== PHP_SESSION_ACTIVE) {
     throw new RuntimeException('Session not started');
 }
 
 $builder = new ContainerBuilder();
 $builder->addDefinitions(require __DIR__ . '/../config/di.php');
-if (($_ENV['APP_ENV'] ?? 'dev') === 'prod') {
+if ($currentEnv === 'prod') {
     $builder->enableCompilation(__DIR__ . '/../var');
 }
 $container = $builder->build();

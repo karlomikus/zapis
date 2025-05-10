@@ -4,7 +4,7 @@ Easy to setup and use, single person note taking app. Just drop in folder contai
 
 ## Features / Design decisions
 - Low on features, just basic note taking
-- Open to suggestions, but at the end it's just my personal note taking app
+- Open to suggestions, but the idea is to keep it simple
 - Easy to use in browser markdown editor
 - Drop in any folder containing text files and index them
 
@@ -17,6 +17,7 @@ services:
   notes:
     image: ghcr.io/karlomikus/zapis
     environment:
+      - APP_ENV=prod
       - USERNAME=admin
       - PASSWORD=12345
     volumes:
