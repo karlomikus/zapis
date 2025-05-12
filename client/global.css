@@ -1,0 +1,194 @@
+body {
+    font-family: var(--font-primary);
+    color: var(--uchu-yin-9);
+    font-size: 16px;
+    margin: 0;
+    background-color: #fff;
+}
+
+a {
+    color: var(--uchu-orange-7);
+}
+
+a:hover, a:focus {
+    color: var(--uchu-red-7);
+}
+
+.container {
+    max-width: var(--main-width);
+    margin: 0 auto;
+    padding: 0 0.5rem;
+}
+
+.main-page-header {
+    border-bottom: 1px solid var(--uchu-yin-2);
+    color: var(--uchu-yin-8);
+}
+
+.nav-header {
+    display: flex;
+    gap: 1rem;
+    padding: 0.25rem 0;
+}
+
+.logotype {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logotype h1 {
+    font-size: 1.5em;
+}
+
+.logotype svg {
+    width: 20px;
+    fill: var(--uchu-orange-5);
+}
+
+.nav-header-actions {
+    margin-left: auto;
+}
+
+.plain-editor {
+    width: 100%;
+    display: none;
+    resize: none;
+    border: none;
+    height: 1000px;
+}
+
+.button {
+    display: inline-flex;
+    cursor: pointer;
+    user-select: none;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border: 0;
+    color: var(--uchu-orange-9);
+    background: var(--uchu-orange-1);
+    padding: 0.25rem;
+    font-size: 1rem;
+    outline-color: transparent;
+    gap: 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.button.button--basic {
+    padding: 0.25rem 0.75rem;
+    background-color: var(--uchu-yin-1);
+    color: var(--uchu-yin-9);
+}
+
+.button:hover, .button:focus, .button:active {
+    background: var(--uchu-red-1);
+    color: var(--uchu-red-8);
+}
+
+.note {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    line-height: 1.4;
+}
+
+.note-header {
+    line-height: 1.2;
+    border-bottom: 2px solid var(--uchu-yin-1);
+    padding-bottom: 0.25rem;
+}
+
+.note-header h3 {
+    font-size: 1em;
+    font-weight: normal;
+    color: var(--uchu-yin-6);
+}
+
+dialog {
+    margin: 1rem auto;
+    padding: 0;
+    background-color: #fff;
+    border: 0;
+    box-shadow: var(--shadow-elevation-medium), inset 0 1px 0 #fff;
+    max-width: 400px;
+    width: 100%;
+}
+
+dialog::backdrop {
+    background-color: rgba(41, 27, 21, 0.3);
+}
+
+.command-panel-dialog {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-input {
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-size: 1.25em;
+    padding: 0.5rem 0.75rem;
+    color: var(--uchu-yin-9);
+    background: #fff;
+    border: 0;
+    border-bottom: 2px solid var(--uchu-yin-2);
+    appearance: none;
+    border-radius: 0;
+    outline-color: transparent;
+}
+
+.form-input:focus {
+    outline: none;
+}
+
+.command-results {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.command-item {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.command-item p {
+    color: var(--uchu-yin-8);
+    font-size: 0.85em;
+}
+
+.command-item:hover {
+    background-color: var(--uchu-gray-1);
+}
+
+.command-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.toasts {
+    position: fixed;
+    top: 5rem;
+    z-index: 2;
+}
+
+.toasts-toast {
+    background-color: var(--uchu-green-1);
+    color: var(--uchu-green-9);
+    padding: 2px 5px;
+    text-align: center;
+}
+
+.global-note-actions {
+    position: fixed;
+    right: 2rem;
+    bottom: 2rem;
+    z-index: 2;
+}

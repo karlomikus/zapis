@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Kami\Notes\Action;
 
 use Twig\Environment;
-use Kami\Notes\NoteService;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 final readonly class ShowAuthAction
 {
-    public function __construct(private Environment $twig, private NoteService $service)
+    public function __construct(private Environment $twig)
     {
     }
 

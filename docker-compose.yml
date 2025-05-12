@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
+      - APP_ENV=dev
       - USERNAME=karlo
       - PASSWORD=12345
     volumes:

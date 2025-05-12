@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Kami\Notes;
 
+use DateTimeImmutable;
+use Loupe\Loupe\Loupe;
 use Kami\Notes\Domain\Note;
 use Kami\Notes\Domain\NoteId;
 use Kami\Notes\Domain\NoteRepository;
-use Loupe\Loupe\Loupe;
 
 final readonly class NoteService
 {
@@ -26,6 +27,7 @@ final readonly class NoteService
                 content: 'Start writing your note here',
                 path: $noteId->value,
                 extension: 'md',
+                lastModified: new DateTimeImmutable(),
             );
         }
 
@@ -53,6 +55,7 @@ final readonly class NoteService
         $note->content = $content;
 
         $this->noteRepository->save($note);
+        $this->loupe->addDocument($note->toSearchDocument());
     }
 
     public function deleteNote(string $noteId): void

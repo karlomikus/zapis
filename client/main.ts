@@ -1,6 +1,4 @@
-import "./reset.css";
 import "./styles.css";
-import "./editor.css";
 
 import editorConfig from "./editor";
 import { EditorView } from "@codemirror/view";

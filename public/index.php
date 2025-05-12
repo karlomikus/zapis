@@ -18,13 +18,16 @@ use Psr\Http\Message\ResponseFactoryInterface;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$currentEnv = $_ENV['APP_ENV'] ?? 'dev';
+assert(is_string($_ENV['APP_ENV'] ?? null) && !empty($_ENV['APP_ENV']), 'APP_ENV must be set');
+
+$currentEnv = $_ENV['APP_ENV'];
+// $host = $_SERVER['HTTP_HOST'] ?? null;
 
 if ($currentEnv === 'prod') {
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
-        'domain' => $_SERVER['HTTP_HOST'] ?? null,
+        // 'domain' => $host,
         'secure' => true,
         'httponly' => true,
         'samesite' => 'Strict',
@@ -40,8 +43,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
     throw new RuntimeException('Session not started');
 }
 
+$diConfig = require __DIR__ . '/../config/di.php';
+assert(is_array($diConfig), 'DI config must return an array');
+
 $builder = new ContainerBuilder();
-$builder->addDefinitions(require __DIR__ . '/../config/di.php');
+$builder->addDefinitions($diConfig);
 if ($currentEnv === 'prod') {
     $builder->enableCompilation(__DIR__ . '/../var');
 }
