@@ -18,16 +18,18 @@ use Psr\Http\Message\ResponseFactoryInterface;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-assert(is_string($_ENV['APP_ENV'] ?? null) && !empty($_ENV['APP_ENV']), 'APP_ENV must be set');
+$_SERVER = array_merge($_SERVER, $_ENV);
 
-$currentEnv = $_ENV['APP_ENV'];
-// $host = $_SERVER['HTTP_HOST'] ?? null;
+assert(is_string($_SERVER['APP_ENV'] ?? null) && !empty($_SERVER['APP_ENV']), 'APP_ENV must be set');
+
+$currentEnv = $_SERVER['APP_ENV'];
 
 if ($currentEnv === 'prod') {
+    assert(is_string($_SERVER['HTTP_HOST'] ?? null) && !empty($_SERVER['HTTP_HOST']), 'HTTP_HOST must be set');
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
-        // 'domain' => $host,
+        'domain' => $_SERVER['HTTP_HOST'],
         'secure' => true,
         'httponly' => true,
         'samesite' => 'Strict',

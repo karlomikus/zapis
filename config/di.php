@@ -18,11 +18,13 @@ use Psr\Http\Message\ResponseFactoryInterface;
 
 return [
     Config::class => function () {
-        assert(is_string($_ENV['APP_ENV'] ?? null) && !empty($_ENV['APP_ENV']), 'APP_ENV must be set');
+        $environment = array_merge($_SERVER, $_ENV);
+
+        assert(is_string($environment['APP_ENV'] ?? null) && !empty($environment['APP_ENV']), 'APP_ENV must be set');
 
         return new Config(
             contentFolderPath: rtrim(__DIR__ . '/../content', '/'),
-            environment: $_ENV['APP_ENV'],
+            environment: $environment['APP_ENV'],
         );
     },
 

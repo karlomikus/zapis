@@ -1,9 +1,12 @@
 services:
   app:
-    user: 1000:1000
     build:
       context: .
       dockerfile: Dockerfile
+      target: develop
+      args:
+          USER_ID: 1000
+          GROUP_ID: 1000
     environment:
       - APP_ENV=dev
       - USERNAME=karlo
@@ -11,4 +14,4 @@ services:
     volumes:
       - .:/var/www/notesapp
     ports:
-      - "8380:80"
+      - "8380:8080"
