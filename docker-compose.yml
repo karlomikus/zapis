@@ -12,6 +12,6 @@ services:
       - USERNAME=karlo
       - PASSWORD=12345
     volumes:
-      - .:/var/www/notesapp
+      - .:/app
     ports:
       - "8380:8080"

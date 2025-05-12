@@ -19,24 +19,17 @@ use Psr\Http\Message\ResponseFactoryInterface;
 require __DIR__ . '/../vendor/autoload.php';
 
 $_SERVER = array_merge($_SERVER, $_ENV);
-
 assert(is_string($_SERVER['APP_ENV'] ?? null) && !empty($_SERVER['APP_ENV']), 'APP_ENV must be set');
 
 $currentEnv = $_SERVER['APP_ENV'];
 
-if ($currentEnv === 'prod') {
-    assert(is_string($_SERVER['HTTP_HOST'] ?? null) && !empty($_SERVER['HTTP_HOST']), 'HTTP_HOST must be set');
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path' => '/',
-        'domain' => $_SERVER['HTTP_HOST'],
-        'secure' => true,
-        'httponly' => true,
-        'samesite' => 'Strict',
-    ]);
-}
 session_name('zapis');
 session_start([
+    'cookie_lifetime' => 0,
+    'cookie_path' => '/',
+    'cookie_secure' => 1,
+    'cookie_samesite' => 'Strict',
+    'http_only' => true,
     'use_strict_mode' => true,
     'use_only_cookies' => true,
 ]);

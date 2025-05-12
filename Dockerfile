@@ -21,10 +21,12 @@ RUN apt-get update && apt-get install -y \
 
 RUN install-php-extensions intl
 
-ENV APACHE_DOCUMENT_ROOT=/var/www/notesapp/public
+ENV APACHE_DOCUMENT_ROOT=/app/public
 ENV APP_ENV=prod
 
 USER www-data
+
+WORKDIR /app
 
 FROM base AS develop
 
@@ -42,8 +44,6 @@ USER www-data
 FROM base AS production
 
 ENV PHP_OPCACHE_ENABLE=1
-
-WORKDIR /var/www/notesapp
 
 COPY --chown=www-data:www-data . .
 COPY --from=client --chown=www-data:www-data /app/public ./public
