@@ -1,4 +1,10 @@
-# [⚡] Zapis - Note Taking App
+<h1 align="center">
+  <img src="https://github.com/karlomikus/zapis/raw/master/public/favicon.png" width="64" alt="App Logo" />
+  <br/>
+  [⚡] Zapis - Note Taking App
+</h1>
+
+<p align="center">A powerful, lightning-fast note-taking app.</p>
 
 Easy to setup and use, single person note taking app. Just drop in folder containing your markdown file and start typing.
 
