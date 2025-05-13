@@ -18,10 +18,12 @@ services:
     image: ghcr.io/karlomikus/zapis
     environment:
       - APP_ENV=prod
-      - USERNAME=admin
-      - PASSWORD=12345
+      - AUTH_EMAIL=user@email.com
+      - GITHUB_CLIENT_ID=
+      - GITHUB_CLIENT_SECRET=
+      - GITHUB_REDIRECT=/sso
     volumes:
-      - ./my-notes:/var/www/notesapp/content
+      - ./my-notes:/app/content
     ports:
-      - "80:80"
+      - "8080:8080"
 ```

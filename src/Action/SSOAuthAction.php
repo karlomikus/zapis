@@ -27,13 +27,7 @@ final readonly class SSOAuthAction
 
             return $response->withHeader('Location', $authUrl)->withStatus(302);
         } elseif (empty($q['state']) || ($q['state'] !== $_SESSION['oauth2state'])) {
-            session_unset();
-            session_destroy();
-            session_regenerate_id(true);
-
             $this->logger->error('Invalid state while trying to authenticate');
-
-            return $response->withHeader('Location', '/auth')->withStatus(302);
         } else {
             $token = $this->provider->getAccessToken('authorization_code', [
                 'code' => $q['code']
@@ -59,11 +53,13 @@ final readonly class SSOAuthAction
                 $this->logger->error('Error retrieving user data', [
                     'exception' => $e,
                 ]);
-
-                return $response->withHeader('Location', '/auth')->withStatus(302);
             }
         }
 
-        return $response->withHeader('Location', '/')->withStatus(302);
+        session_unset();
+        session_destroy();
+        session_regenerate_id(true);
+
+        return $response->withHeader('Location', '/auth')->withStatus(302);
     }
 }

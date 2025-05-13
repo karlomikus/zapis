@@ -1,7 +1,7 @@
 import { dropCursor, EditorView, keymap, lineNumbers, ViewPlugin, Decoration } from "@codemirror/view"
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown"
 import { languages } from "@codemirror/language-data"
-import { history, historyKeymap } from "@codemirror/commands";
+import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
 import { EditorState, RangeSetBuilder } from "@codemirror/state";
 import { bracketMatching, defaultHighlightStyle, indentOnInput, syntaxHighlighting, syntaxTree } from "@codemirror/language";
 import { closeBrackets } from "@codemirror/autocomplete";
@@ -103,6 +103,7 @@ export default {
         codeBlockPlugin,
         hyperLink,
         keymap.of([
+            ...defaultKeymap,
             ...historyKeymap,
         ])
     ]
