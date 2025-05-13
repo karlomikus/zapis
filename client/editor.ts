@@ -89,7 +89,7 @@ export default {
     doc: mainNoteContent?.value ?? '',
     parent: document.getElementById('editor')!,
     extensions: [
-        lineNumbers(),
+        // lineNumbers(),
         history(),
         dropCursor(),
         indentOnInput(),
