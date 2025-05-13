@@ -14,18 +14,19 @@ use Twig\Loader\FilesystemLoader;
 use Monolog\Handler\StreamHandler;
 use Psr\Container\ContainerInterface;
 use Slim\Psr7\Factory\ResponseFactory;
+use League\OAuth2\Client\Provider\Github;
 use Psr\Http\Message\ResponseFactoryInterface;
 
 return [
-    Config::class => function () {
-        $environment = array_merge($_SERVER, $_ENV);
+    Github::class => function (ContainerInterface $c) {
+        /** @var Config $config */
+        $config = $c->get(Config::class);
 
-        assert(is_string($environment['APP_ENV'] ?? null) && !empty($environment['APP_ENV']), 'APP_ENV must be set');
-
-        return new Config(
-            contentFolderPath: rtrim(__DIR__ . '/../content', '/'),
-            environment: $environment['APP_ENV'],
-        );
+        return new Github([
+            'clientId' => $config->oauthClientId,
+            'clientSecret' => $config->oauthClientSecret,
+            'redirectUri' => $config->oauthRedirect,
+        ]);
     },
 
     ResponseFactoryInterface::class => function (ContainerInterface $container) {

@@ -9,8 +9,11 @@ services:
           GROUP_ID: 1000
     environment:
       - APP_ENV=dev
-      - USERNAME=karlo
-      - PASSWORD=12345
+      - PHP_CS_FIXER_IGNORE_ENV=1
+      - AUTH_EMAIL=${AUTH_EMAIL}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+      - GITHUB_REDIRECT=${GITHUB_REDIRECT}
     volumes:
       - .:/app
     ports:
