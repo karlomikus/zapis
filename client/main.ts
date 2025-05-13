@@ -40,8 +40,8 @@ function showToast(message: string) {
   fadeOutElement(toast, 750);
 }
 
+const dialog = document.querySelector('#commandPanelDialog') as HTMLDialogElement;
 window.showCommandPanel = () => {
-  const dialog = document.querySelector('#commandPanelDialog') as HTMLDialogElement;
   if (!dialog) {
     console.error('Dialog not found');
     return;
@@ -56,6 +56,7 @@ window.showCommandPanel = () => {
 }
 
 window.syncSearch = async () => {
+  dialog.close();
   const url = `/sync-search`;
   const method = 'POST';
   const options: RequestInit = {
